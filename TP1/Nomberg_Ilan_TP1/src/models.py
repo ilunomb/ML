@@ -2,8 +2,10 @@ import numpy as np
 import pandas as pd
 
 class LinearRegression:
-    def __init__(self, X, y, fit_intercept=True):
+    def __init__(self, X, y, fit_intercept=True, L1=0.0, L2=0.0):
         self.fit_intercept = fit_intercept
+        self.L1 = L1
+        self.L2 = L2
         self.coef_ = None
         self.intercept_ = None
         self.X = X
@@ -15,7 +17,9 @@ class LinearRegression:
         X, y = self.X, self.y
         if self.fit_intercept:
             X = np.c_[np.ones(X.shape[0]), X]
-        self.coef_ = np.linalg.inv(X.T @ X) @ X.T @ y
+        I = np.eye(X.shape[1])
+        I[0, 0] = 0  # Do not regularize the intercept term
+        self.coef_ = np.linalg.inv(X.T @ X + self.L2 * I) @ X.T @ y
         if self.fit_intercept:
             self.intercept_ = self.coef_[0]
             self.coef_ = self.coef_[1:]
@@ -27,7 +31,9 @@ class LinearRegression:
             X = np.c_[np.ones(X.shape[0]), X]
         self.coef_ = np.random.rand(X.shape[1])
         for _ in range(n_iterations):
-            self.coef_ -= learning_rate * (X.T @ (X @ self.coef_ - y)) / X.shape[0]
+            gradient = X.T @ (X @ self.coef_ - y) / X.shape[0] + self.L2 * self.coef_ + self.L1 * np.sign(self.coef_)
+            gradient[0] -= self.L2 * self.coef_[0] + self.L1 * np.sign(self.coef_[0])  # Do not regularize the intercept term
+            self.coef_ -= learning_rate * gradient
         if self.fit_intercept:
             self.intercept_ = self.coef_[0]
             self.coef_ = self.coef_[1:]
@@ -45,4 +51,4 @@ class LinearRegression:
         print(f"Trained using {self.training_method} method")
         data = {'Feature': ['Intercept'] + list(self.feature_names), 'Coefficient': [self.intercept_] + list(self.coef_)}
         df = pd.DataFrame(data)
-        print(f"{df.to_string(index=False)} \n" )
+        print(f"{df.to_string(index=False)} \n")
