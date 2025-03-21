@@ -1,5 +1,7 @@
 import pandas as pd
 
+TARGET = 'price'
+
 def one_hot_encoding(df, column):
     """
     Performs one-hot encoding on the specified column of the given DataFrame and converts boolean values to 0/1.
@@ -49,7 +51,7 @@ def normalize_df(df, train = True, stats = {}):
     normalize_df = df.copy()
     for column in numeric_df.columns:
         unique_values = numeric_df[column].unique()
-        if set(unique_values).issubset({0, 1}):
+        if set(unique_values).issubset({0, 1}) or column == TARGET:
             continue  # Skip normalization for categorical columns
         if train:
             mean = numeric_df[column].mean()
