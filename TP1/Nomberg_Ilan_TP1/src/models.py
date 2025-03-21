@@ -1,3 +1,5 @@
+from IPython.display import display, Markdown
+import pandas as pd
 import numpy as np
 import pandas as pd
 
@@ -25,7 +27,7 @@ class LinearRegression:
             self.coef_ = self.coef_[1:]
         self.training_method = 'pinv'
     
-    def gradient_descent_fit(self, learning_rate=0.01, n_iterations=1000):
+    def gradient_descent_fit(self, learning_rate=0.01, n_iterations=10000):
         X, y = self.X, self.y
         if self.fit_intercept:
             X = np.c_[np.ones(X.shape[0]), X]
@@ -48,7 +50,13 @@ class LinearRegression:
         return metric.calculate(y, self.predict(X_predict))
     
     def print_model(self):
-        print(f"Trained using {self.training_method} method")
-        data = {'Feature': ['Intercept'] + list(self.feature_names), 'Coefficient': [self.intercept_] + list(self.coef_)}
-        df = pd.DataFrame(data)
-        print(f"{df.to_string(index=False)} \n")
+        print(f"**Trained using {self.training_method} method**")
+        
+        # Prepare data with features as headers and values in the second row
+        feature_names = ['Intercept'] + list(self.feature_names)
+        coefficients = [self.intercept_] + list(self.coef_)
+
+        df = pd.DataFrame([coefficients], columns=feature_names)
+
+        # Display as Markdown in Jupyter
+        display(Markdown(df.to_markdown(index=False)))
