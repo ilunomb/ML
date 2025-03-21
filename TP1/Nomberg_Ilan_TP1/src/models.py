@@ -27,7 +27,7 @@ class LinearRegression:
             self.coef_ = self.coef_[1:]
         self.training_method = 'pinv'
     
-    def gradient_descent_fit(self, learning_rate=0.01, n_iterations=10000):
+    def gradient_descent_fit(self, learning_rate=0.01, n_iterations=1000):
         X, y = self.X, self.y
         if self.fit_intercept:
             X = np.c_[np.ones(X.shape[0]), X]

@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 from models import LinearRegression
 from metrics import MSE
+from preprocessing import normalize_df, handle_missing_values, one_hot_encoding
+from utils import feature_engineer, convert_sqft_to_m2
 
 
 def train_validate_split(df, validation_size, random_state=42):
@@ -33,51 +35,152 @@ def k_fold_split(df_train, df_validate, k, random_state=42):
     """
     df_train = df_train.sample(frac=1, random_state=random_state)  # Shuffle the data
     df_validate = df_validate.sample(frac=1, random_state=random_state)  # Shuffle the data
-    return np.array_split(df_train, k), np.array_split(df_validate, k)
+    
+    train_folds = np.array_split(df_train, k)
+    validate_folds = np.array_split(df_validate, k)
 
-def cross_validate(df_train, df_validate, k=10, random_sate=42, lambdas=np.logspace(-2, 2, 100), metric=MSE(), L2=True, training_method='pinv'):
+    normalized_train_folds = []
+    normalized_validate_folds = []
+
+    for i in range(k):
+        normalized_train, stats = normalize_df(train_folds[i], train=True)
+        normalized_validate, _ = normalize_df(validate_folds[i], train=False, stats=stats)
+        normalized_train_folds.append(normalized_train)
+        normalized_validate_folds.append(normalized_validate)
+
+    return normalized_train_folds, normalized_validate_folds
+
+
+# def cross_validate(df_train, df_validate, k=10, random_sate=42, lambdas=np.logspace(-2, 2, 100), metric=MSE(), L2=True, training_method='pinv'):
+#     """
+#     Performs k-fold cross-validation on the given DataFrame using the specified number of folds.
+
+#     Parameters:
+#     df_train (pd.DataFrame): The training DataFrame.
+#     df_validate (pd.DataFrame): The validation DataFrame.
+#     k (int): The number of folds.
+#     lambdas (np.ndarray): The array of lambda values to test.
+#     metric (Metrics): The metric to use for evaluation.
+
+#     Returns:
+#     float: The optimal lambda value.
+#     """
+#     # Split the data into k folds
+#     train_folds, validate_folds = k_fold_split(df_train, df_validate, k, random_state=random_sate)
+#     best_lambda = None
+#     best_score = float('inf')
+#     global_scores = []
+#     for lambda_ in lambdas:
+#         scores = []
+#         for i in range(k):
+#             # Train the model
+#             if L2:
+#                 model = LinearRegression(train_folds[i].drop(columns='price'), train_folds[i]['price'], L2=lambda_)
+#                 if training_method == 'pinv':
+#                     model.pinv_fit()
+#                 else:
+#                     model.gradient_descent_fit()
+#             elif training_method == 'gradient_descent':
+#                 model = LinearRegression(train_folds[i].drop(columns='price'), train_folds[i]['price'], L1=lambda_)
+#                 model.gradient_descent_fit()
+#             else:
+#                 print("Can't use L1 regularization with pinv method")
+#             # Calculate the loss
+#             loss = model.loss(validate_folds[i].drop(columns='price'), validate_folds[i]['price'], metric)
+#             scores.append(loss)
+#         # Calculate the mean loss
+#         mean_score = np.mean(scores)
+#         global_scores.append(mean_score)
+#         # Update the best lambda if this one is better
+#         if mean_score < best_score:
+#             best_score = mean_score
+#             best_lambda = lambda_
+#     return best_lambda, global_scores
+    
+
+
+def cross_validate(df, k=10, random_state=42, lambdas=np.logspace(-2, 2, 100), metric=MSE(), L2=True, training_method='pinv'):
     """
-    Performs k-fold cross-validation on the given DataFrame using the specified number of folds.
-
+    Implements K-fold Cross-Validation following the algorithm in the image.
+    
     Parameters:
-    df_train (pd.DataFrame): The training DataFrame.
-    df_validate (pd.DataFrame): The validation DataFrame.
+    df (pd.DataFrame): The input DataFrame containing both training and validation data.
     k (int): The number of folds.
     lambdas (np.ndarray): The array of lambda values to test.
     metric (Metrics): The metric to use for evaluation.
-
+    L2 (bool): Whether to use L2 regularization.
+    training_method (str): The training method ('pinv' or 'gradient_descent').
+    
     Returns:
     float: The optimal lambda value.
+    list: The list of scores for each lambda value.
     """
-    # Split the data into k folds
-    train_folds, validate_folds = k_fold_split(df_train, df_validate, k, random_state=random_sate)
+    # Shuffle and split the data into k folds
+    df = df.sample(frac=1, random_state=random_state).reset_index(drop=True)
+    folds = np.array_split(df, k)
+    
     best_lambda = None
     best_score = float('inf')
     global_scores = []
+    
     for lambda_ in lambdas:
         scores = []
+        
         for i in range(k):
+            # Hold-out fold (HOi)
+            df_ho = folds[i]
+            # Remaining folds as training data (TRi)
+            df_tr = pd.concat([folds[j] for j in range(k) if j != i])
+
+            df_ho_copy = df_ho.copy()
+            df_tr_copy = df_tr.copy()
+
+            handle_missing_values(df_tr_copy, "age")
+            handle_missing_values(df_tr_copy, "rooms")
+
+            df_tr_copy_encoded = one_hot_encoding(df_tr_copy, "area_units")
+
+            convert_sqft_to_m2(df_tr_copy_encoded, "area_units_sqft", "area")
+            
+            df_tr_copy_encoded = feature_engineer(df_tr_copy_encoded)
+
+            df_tr_copy_normalized, stats_dict_train = normalize_df(df_tr_copy_encoded, train=True)
+
+            handle_missing_values(df_ho_copy, "age", train=False, stats=stats_dict_train)
+            handle_missing_values(df_ho_copy, "rooms", train=False, stats=stats_dict_train)
+
+            df_ho_copy_encoded = one_hot_encoding(df_ho_copy, "area_units")
+
+            convert_sqft_to_m2(df_ho_copy_encoded, "area_units_sqft", "area")
+            
+            df_ho_copy_encoded = feature_engineer(df_ho_copy_encoded)
+
+            df_ho_copy_normalized, _ = normalize_df(df_ho_copy_encoded, train=False, stats=stats_dict_train)
+            
             # Train the model
             if L2:
-                model = LinearRegression(train_folds[i].drop(columns='price'), train_folds[i]['price'], L2=lambda_)
+                model = LinearRegression(df_tr_copy_normalized.drop(columns='price'), df_tr_copy_normalized['price'], L2=lambda_)
                 if training_method == 'pinv':
                     model.pinv_fit()
                 else:
                     model.gradient_descent_fit()
             elif training_method == 'gradient_descent':
-                model = LinearRegression(train_folds[i].drop(columns='price'), train_folds[i]['price'], L1=lambda_)
+                model = LinearRegression(df_tr_copy_normalized.drop(columns='price'), df_tr_copy_normalized['price'], L1=lambda_)
                 model.gradient_descent_fit()
             else:
-                print("Can't use L1 regularization with pinv method")
-            # Calculate the loss
-            loss = model.loss(validate_folds[i].drop(columns='price'), validate_folds[i]['price'], metric)
+                raise ValueError("Can't use L1 regularization with pinv method")
+            
+            # Predict and calculate loss
+            loss = model.loss(df_ho_copy_normalized.drop(columns='price'), df_ho_copy_normalized['price'], metric)
             scores.append(loss)
-        # Calculate the mean loss
+        
+        # Compute mean validation score for this lambda
         mean_score = np.mean(scores)
         global_scores.append(mean_score)
-        # Update the best lambda if this one is better
+        
+        # Update best lambda if needed
         if mean_score < best_score:
             best_score = mean_score
             best_lambda = lambda_
-    return best_lambda, global_scores
     
+    return best_lambda, global_scores
