@@ -33,8 +33,9 @@ def k_fold_split(df_train, df_validate, k, random_state=42):
     Returns:
     List[pd.DataFrame]: A list of k DataFrames, each containing a different fold.
     """
-    df_train = df_train.sample(frac=1, random_state=random_state)  # Shuffle the data
-    df_validate = df_validate.sample(frac=1, random_state=random_state)  # Shuffle the data
+
+    df_train = df_train.sample(frac=1, random_state=random_state)
+    df_validate = df_validate.sample(frac=1, random_state=random_state)
     
     train_folds = np.array_split(df_train, k)
     validate_folds = np.array_split(df_validate, k)
@@ -66,7 +67,7 @@ def cross_validate(df, k=10, random_state=42, lambdas=np.logspace(-2, 2, 100), m
     float: The optimal lambda value.
     list: The list of scores for each lambda value.
     """
-    # Shuffle and split the data into k folds
+
     df = df.sample(frac=1, random_state=random_state).reset_index(drop=True)
     folds = np.array_split(df, k)
     
@@ -78,9 +79,7 @@ def cross_validate(df, k=10, random_state=42, lambdas=np.logspace(-2, 2, 100), m
         scores = []
         
         for i in range(k):
-            # Hold-out fold (HOi)
             df_ho = folds[i]
-            # Remaining folds as training data (TRi)
             df_tr = pd.concat([folds[j] for j in range(k) if j != i])
 
             df_ho_copy = df_ho.copy()
@@ -107,8 +106,7 @@ def cross_validate(df, k=10, random_state=42, lambdas=np.logspace(-2, 2, 100), m
             df_ho_copy_encoded = feature_engineer(df_ho_copy_encoded)
 
             df_ho_copy_normalized, _ = normalize_df(df_ho_copy_encoded, train=False, stats=stats_dict_train)
-            
-            # Train the model
+
             if L2:
                 model = LinearRegression(df_tr_copy_normalized.drop(columns='price'), df_tr_copy_normalized['price'], L2=lambda_)
                 if training_method == 'pinv':
@@ -121,15 +119,12 @@ def cross_validate(df, k=10, random_state=42, lambdas=np.logspace(-2, 2, 100), m
             else:
                 raise ValueError("Can't use L1 regularization with pinv method")
             
-            # Predict and calculate loss
             loss = model.loss(df_ho_copy_normalized.drop(columns='price'), df_ho_copy_normalized['price'], metric)
             scores.append(loss)
-        
-        # Compute mean validation score for this lambda
+
         mean_score = np.mean(scores)
         global_scores.append(mean_score)
         
-        # Update best lambda if needed
         if mean_score < best_score:
             best_score = mean_score
             best_lambda = lambda_

@@ -20,7 +20,7 @@ class LinearRegression:
         if self.fit_intercept:
             X = np.c_[np.ones(X.shape[0]), X]
         I = np.eye(X.shape[1])
-        I[0, 0] = 0  # Do not regularize the intercept term
+        I[0, 0] = 0
         self.coef_ = np.linalg.inv(X.T @ X + self.L2 * I) @ X.T @ y
         if self.fit_intercept:
             self.intercept_ = self.coef_[0]
@@ -34,7 +34,7 @@ class LinearRegression:
         self.coef_ = np.random.rand(X.shape[1])
         for _ in range(n_iterations):
             gradient = X.T @ (X @ self.coef_ - y) / X.shape[0] + self.L2 * self.coef_ + self.L1 * np.sign(self.coef_)
-            gradient[0] -= self.L2 * self.coef_[0] + self.L1 * np.sign(self.coef_[0])  # Do not regularize the intercept term
+            gradient[0] -= self.L2 * self.coef_[0] + self.L1 * np.sign(self.coef_[0])
             self.coef_ -= learning_rate * gradient
         if self.fit_intercept:
             self.intercept_ = self.coef_[0]
@@ -52,11 +52,9 @@ class LinearRegression:
     def print_model(self):
         print(f"**Trained using {self.training_method} method**")
         
-        # Prepare data with features as headers and values in the second row
         feature_names = ['Intercept'] + list(self.feature_names)
         coefficients = [self.intercept_] + list(self.coef_)
 
         df = pd.DataFrame([coefficients], columns=feature_names)
 
-        # Display as Markdown in Jupyter
         display(Markdown(df.to_markdown(index=False)))

@@ -1,6 +1,5 @@
 import numpy as np
 
-# make a polimorphic class to implement all the metrics
 class Metrics:
     def __init__(self):
         pass
@@ -40,3 +39,13 @@ class R2(Metrics):
 
     def __str__(self):
         return "R2"
+    
+class RMSE(Metrics):
+    def __init__(self):
+        super().__init__()
+    
+    def calculate(self, y_true, y_pred):
+        return np.sqrt(((y_true - y_pred) ** 2).mean())
+    
+    def __str__(self):
+        return "RMSE"

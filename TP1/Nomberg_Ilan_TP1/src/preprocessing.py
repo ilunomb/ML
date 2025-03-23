@@ -14,13 +14,12 @@ def one_hot_encoding(df, column):
     Returns:
     pd.DataFrame: The DataFrame with the encoded column.
     """
-    
-    # check if the column has only one type of value
+
     if len(df[column].unique()) == 1:
         df_encoded = pd.get_dummies(df, columns=[column])
     else:
         df_encoded = pd.get_dummies(df, columns=[column], drop_first=True)
-    # Convert boolean columns to 0/1
+
     for col in df_encoded.columns:
         if df_encoded[col].dtype == 'bool':
             df_encoded[col] = df_encoded[col].astype(int)
@@ -47,12 +46,13 @@ def normalize_df(df, train = True, stats = {}):
     pd.DataFrame: The DataFrame with normalized numeric columns.
     dict: A dictionary with the mean and standard deviation of each numeric column.
     """
+
     numeric_df = df.select_dtypes(include=['number'])
     normalize_df = df.copy()
     for column in numeric_df.columns:
         unique_values = numeric_df[column].unique()
         if set(unique_values).issubset({0, 1}) or column == TARGET:
-            continue  # Skip normalization for categorical columns
+            continue
         if train:
             mean = numeric_df[column].mean()
             std = numeric_df[column].std()
