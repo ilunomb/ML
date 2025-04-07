@@ -26,7 +26,7 @@ def one_hot_encoding(df):
 
     return new_df
             
-def handle_missing_values(df, train=True, stats={}, true_intervals={}, reference_df=None):
+def handle_missing_values(df, train=True, stats={}, true_intervals={}, reference_df=None, k=5):
     new_df = replace_invalid_values_with_nan(df, true_intervals)
     df_to_fill = new_df.copy()
 
