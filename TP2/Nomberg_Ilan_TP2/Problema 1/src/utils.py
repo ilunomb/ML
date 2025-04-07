@@ -40,3 +40,28 @@ def calculate_stats(df):
                 'std': df[column].std()
             }
     return stats
+
+def correlation_with_target(df, target_column, plot=True, top_n=None, cmap="twilight"):
+    # Filtrar columnas numéricas
+    numeric_df = df.select_dtypes(include=['float64', 'int64']).copy()
+    
+    # Asegurar que el target esté en el DataFrame
+    if target_column not in numeric_df.columns:
+        numeric_df[target_column] = df[target_column]
+    
+    # Calcular correlaciones
+    correlations = numeric_df.corr()[target_column].drop(target_column)
+
+    # Ordenar por valor absoluto (más fuertes primero)
+    sorted_corr = correlations.sort_values(key=abs, ascending=True)
+
+    # Mostrar gráfico si se pide
+    if plot:
+        data_to_plot = sorted_corr if top_n is None else sorted_corr.head(top_n)
+        plt.figure(figsize=(6, max(1.5, 0.4 * len(data_to_plot))))
+        sns.heatmap(data_to_plot.to_frame().T, annot=True, cmap=cmap, center=0,
+                    cbar_kws={'label': 'Correlation'}, fmt=".2f")
+        plt.title(f"Correlation of Features with Target: {target_column}")
+        plt.yticks([])
+        plt.tight_layout()
+        plt.show()
