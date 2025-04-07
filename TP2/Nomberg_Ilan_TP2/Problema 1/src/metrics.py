@@ -98,7 +98,7 @@ def pr_curve(y_true, y_scores, thresholds=None):
 
     return np.array(recalls), np.array(precisions)
 
-def plot_roc_curve(y_true, y_scores, label=None):
+def plot_roc_curve(y_true, y_scores, label=None, show=True):
     fpr, tpr = roc_curve(y_true, y_scores)
     auc_val = auc(fpr, tpr)
     plt.plot(fpr, tpr, label=label or f"ROC AUC = {auc_val:.4f}")
@@ -107,9 +107,13 @@ def plot_roc_curve(y_true, y_scores, label=None):
     plt.title("ROC Curve")
     plt.grid(True)
     plt.legend()
-    plt.show()
 
-def plot_pr_curve(y_true, y_scores, label=None):
+    if show:
+        plt.show()
+    
+    return auc_val
+
+def plot_pr_curve(y_true, y_scores, label=None, show=True):
     recall_vals, precision_vals = pr_curve(y_true, y_scores)
     auc_val = auc(recall_vals[::-1], precision_vals[::-1])  # orden ascendente en recall
     plt.plot(recall_vals, precision_vals, label=label or f"PR AUC = {auc_val:.4f}")
@@ -118,7 +122,11 @@ def plot_pr_curve(y_true, y_scores, label=None):
     plt.title("Precision-Recall Curve")
     plt.grid(True)
     plt.legend()
-    plt.show()
+    
+    if show:
+        plt.show()
+    
+    return auc_val
 
 
 def auc(x, y):
