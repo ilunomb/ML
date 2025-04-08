@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
-TARGET = 'Diagnosis'
+TARGET = 'war_class'
 
 def one_hot_encoding_util(df, column, drop_first = True):
 

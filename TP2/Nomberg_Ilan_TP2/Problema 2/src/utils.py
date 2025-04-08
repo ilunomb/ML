@@ -65,3 +65,44 @@ def correlation_with_target(df, target_column, plot=True, top_n=None, cmap="twil
         plt.yticks([])
         plt.tight_layout()
         plt.show()
+
+def compute_mutual_information(x, y):
+    joint = pd.crosstab(x, y, normalize=True)
+    px = joint.sum(axis=1).values
+    py = joint.sum(axis=0).values
+
+    mi = 0.0
+    for i in range(joint.shape[0]):
+        for j in range(joint.shape[1]):
+            pxy = joint.iat[i, j]
+            if pxy > 0:
+                mi += pxy * np.log(pxy / (px[i] * py[j]))
+    return mi
+
+def feature_relevance_manual_mi(df, target_column, top_n=None, plot=True, cmap="twilight"):
+    X = df.drop(columns=[target_column])
+    y = df[target_column]
+
+    relevance_scores = {}
+    for col in X.columns:
+        col_data = X[col]
+
+        # Convert numeric columns to discrete bins (optional, helps for MI)
+        if np.issubdtype(col_data.dtype, np.number):
+            col_data = pd.qcut(col_data, q=10, duplicates='drop')
+
+        relevance_scores[col] = compute_mutual_information(col_data, y)
+
+    relevance_series = pd.Series(relevance_scores).sort_values(ascending=False)
+
+    if plot:
+        data_to_plot = relevance_series if top_n is None else relevance_series.head(top_n)
+        plt.figure(figsize=(6, max(1.5, 0.4 * len(data_to_plot))))
+        sns.heatmap(data_to_plot.to_frame().T, annot=True, cmap=cmap,
+                    cbar_kws={'label': 'Mutual Information'})
+        plt.title(f"Mutual Information with Target: {target_column}")
+        plt.yticks([])
+        plt.tight_layout()
+        plt.show()
+
+    return relevance_series
