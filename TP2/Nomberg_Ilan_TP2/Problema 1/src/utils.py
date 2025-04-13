@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 TARGET = 'Diagnosis'
 
-def plot_pairplot(df):
+def plot_pairplot(df, title="Pairplot of Features"):
     """
     Generates a pair plot for the given DataFrame to visualize relationships
     between numerical columns.
@@ -23,9 +23,19 @@ def plot_pairplot(df):
     if numeric_df.shape[1] < 2:
         print("Not enough numerical columns to create a pair plot.")
         return
+    
+    # Your existing pairplot
+    pairplot = sns.pairplot(numeric_df, diag_kind='kde', hue=TARGET)
 
-    sns.pairplot(numeric_df, diag_kind='kde', hue=TARGET)
+    # Set a better-looking title using the fig object
+    plt.suptitle(title, fontsize=50, weight='bold')
+
+    # Tighter layout
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.95)  # Avoid overlap with title
+
     plt.show()
+
 
 def calculate_stats(df):
     stats = {}

@@ -1,8 +1,11 @@
 import numpy as np
 import pandas as pd
-
+from itertools import product
+from metrics import f1_score
+from models import RandomForest
 import seaborn as sns
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 TARGET = 'Diagnosis'
 
@@ -106,3 +109,42 @@ def feature_relevance_manual_mi(df, target_column, top_n=None, plot=True, cmap="
         plt.show()
 
     return relevance_series
+
+
+def grid_search_random_forest(X_train, y_train, X_val, y_val, param_grid, metric=f1_score):
+    """
+    Performs grid search over a parameter grid using a pre-split validation set.
+
+    Parameters:
+    - X_train, y_train: Training data.
+    - X_val, y_val: Validation data.
+    - param_grid: Dict with hyperparameters, e.g. {'n_trees': [5, 10], 'max_depth': [None, 3], ...}
+    - metric: Scoring function (e.g. accuracy_score).
+    - verbose: Whether to print progress.
+
+    Returns:
+    - best_params: Dict with best hyperparameters.
+    - best_score: Best metric value achieved.
+    - best_model: Trained RandomForest model with best parameters.
+    """
+    keys, values = zip(*param_grid.items())
+    combinations = list(product(*values))
+
+    best_score = -float("inf")
+    best_params = None
+    best_model = None
+
+    for combo in tqdm(combinations, desc="Grid Search"):
+        params = dict(zip(keys, combo))
+
+        model = RandomForest(**params)
+        model.fit(X_train, y_train)
+        preds = model.predict(X_val)
+        score = metric(y_val, preds)
+
+        if score > best_score:
+            best_score = score
+            best_params = params
+            best_model = model
+
+    return best_params, best_score, best_model

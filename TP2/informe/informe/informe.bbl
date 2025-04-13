@@ -1,0 +1,9 @@
+\begin{thebibliography}{1}
+
+\bibitem{datawrangler2023}
+Microsoft.
+\newblock Data wrangler extension for exploratory data cleaning, 2023.
+\newblock Disponible en:
+  \url{https://marketplace.visualstudio.com/items?itemName=ms-toolsai.datawrangler}.
+
+\end{thebibliography}

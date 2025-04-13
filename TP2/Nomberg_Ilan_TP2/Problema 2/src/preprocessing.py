@@ -90,7 +90,7 @@ def fill_with_knn(df, k=5, train=True, stats={}, original_df=None, reference_df=
     target_data = df_normalized[numerical_cols].values
 
     # Imputar por fila
-    for idx in tqdm(original_df.index[original_df.isnull().any(axis=1)]):
+    for idx in original_df.index[original_df.isnull().any(axis=1)]:
         row = target_data[df.index.get_loc(idx)]
         valid_mask = ~np.isnan(row)
 

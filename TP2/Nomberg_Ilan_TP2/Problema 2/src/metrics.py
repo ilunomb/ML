@@ -163,7 +163,17 @@ def plot_pr_curve(y_true, y_proba, labels=None, show=True):
         binary_true = (y_true == cls).astype(int)
         binary_scores = y_proba[:, i]
         recall_vals, precision_vals = pr_curve(binary_true, binary_scores)
-        auc_val = auc(recall_vals[::-1], precision_vals[::-1])
+
+        # Ordenar por recall (por si acaso)
+        sorted_idx = np.argsort(recall_vals)
+        recall_vals = recall_vals[sorted_idx]
+        precision_vals = precision_vals[sorted_idx]
+
+        # Agregar punto inicial (0,1) explícitamente
+        recall_vals = np.insert(recall_vals, 0, 0.0)
+        precision_vals = np.insert(precision_vals, 0, 1.0)
+
+        auc_val = auc(recall_vals, precision_vals)
         aucs.append(auc_val)
         plt.plot(recall_vals, precision_vals, label=f"Class {cls} (AUC = {auc_val:.4f})")
 
@@ -176,3 +186,4 @@ def plot_pr_curve(y_true, y_proba, labels=None, show=True):
         plt.show()
 
     return aucs
+
