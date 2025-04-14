@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex informe"] 1744498748.74814 "informe.aux" "informe.bbl" "informe" 1744498886.46136 0
+["bibtex informe"] 1744580472.98792 "informe.aux" "informe.bbl" "informe" 1744580508.21461 0
   "./referencias.bib" 1744400016 248 3fb72de42abb24797fae5e62ce30829a ""
   "C:/Users/iluno/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/plain.bst" 1291864736 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "informe.aux" 1744498885 5562 e1a3f95b35e8f6603573d43928da66e2 "pdflatex"
+  "informe.aux" 1744580507 7724 45ed1815888cfaca28f69ea3234b1a58 "pdflatex"
   (generated)
   "informe.bbl"
   "informe.blg"
   (rewritten before read)
-["pdflatex"] 1744498884.8741 "c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP2/informe/informe/informe.tex" "informe.pdf" "informe" 1744498886.46195 0
+["pdflatex"] 1744580506.46662 "c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP2/informe/informe/informe.tex" "informe.pdf" "informe" 1744580508.21524 0
   "C:/Users/iluno/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1744401549 281127 da76687a863621eb8c9f87f037a08c8e ""
   "C:/Users/iluno/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1716240901 24240354 9f299c43a3d15536f95bee3a1918d4f2 ""
   "C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233951848 1004 54797486969f23fa377b128694d548df ""
@@ -106,20 +106,29 @@
   "C:/Users/iluno/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/iluno/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "Logo-udesa.png" 1743780676 32280 42495ef08dcd83d623e9e4786a8c7e02 ""
-  "c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP2/informe/informe/informe.tex" 1744498884 25953 aee93b5246c00d53fe04b5fc8f4cd11f ""
+  "c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP2/informe/informe/informe.tex" 1744580505 30568 083617397d594fee781749f6dc8e0e77 ""
   "figures/cleaned_data.png" 1744494688 186839 82486c8f08c8d866a0e5165b29cf0400 ""
   "figures/lambda_search.png" 1744401336 20047 11ed113807fcf2442b47cb3130bdf27c ""
+  "figures/lda_conf_matrix.png" 1744579599 17211 59ccb153ac97301625c964de3b55fe1b ""
+  "figures/lda_pr.png" 1744579607 44012 7fd5bc325c16882202128e4cb867df42 ""
+  "figures/lda_roc.png" 1744579667 34136 d665709bc9c22f3cca5f7cafbfebf8b4 ""
+  "figures/logistic_conf_matrix.png" 1744579481 19124 efb0690482f26acc9da5d6f8f33d2ff1 ""
+  "figures/logistic_pr.png" 1744579516 39443 a2d955f58c6e6405607d904cfa95e885 ""
+  "figures/logistic_roc.png" 1744579523 36254 e2120d90b4342266bf133d35ea8248ee ""
   "figures/rebalanceo_conf_matrix.png" 1744493867 18703 94a1fca4a3d75eda0c9bb97582c2f41f ""
   "figures/rebalanceo_pr.png" 1744493817 39610 63d91b311d801bfd2dc0616999fc37f0 ""
   "figures/rebalanceo_roc.png" 1744493802 27735 53da80abb0f6ccc6c78ad6739efc6b81 ""
+  "figures/rf_conf_matrix.png" 1744579863 17470 9e773c9b84601704f96c14369550948f ""
+  "figures/rf_pr.png" 1744579872 32900 76c3df43a5a6195b15fe991bc6f915d4 ""
+  "figures/rf_roc.png" 1744579889 34543 0b87d6dcf1c5682002c71b8b0a90573f ""
   "figures/separability_scatter.png" 1744494653 113353 5aaa6b701fbd7f5d9e03430aab68ff57 ""
   "figures/test_confusion_matrix.png" 1744492409 18483 73656445913059ce9383db1e4bc01ee0 ""
   "figures/test_pr.png" 1744492089 23255 5c81741ecd4ba9ccafb11aad25f699c9 ""
   "figures/test_roc.png" 1744492076 20323 953edb8fe78fd52ea9bb6d2e6c1f95d6 ""
-  "informe.aux" 1744498885 5562 e1a3f95b35e8f6603573d43928da66e2 "pdflatex"
-  "informe.bbl" 1744498749 279 383b125a7dd3b72c584b0a9cd713723c "bibtex informe"
-  "informe.out" 1744498885 1661 450b47b628add4f0deda85936a567ae4 "pdflatex"
-  "informe.tex" 1744498884 25953 aee93b5246c00d53fe04b5fc8f4cd11f ""
+  "informe.aux" 1744580507 7724 45ed1815888cfaca28f69ea3234b1a58 "pdflatex"
+  "informe.bbl" 1744580473 279 383b125a7dd3b72c584b0a9cd713723c "bibtex informe"
+  "informe.out" 1744580507 1661 450b47b628add4f0deda85936a567ae4 "pdflatex"
+  "informe.tex" 1744580505 30568 083617397d594fee781749f6dc8e0e77 ""
   (generated)
   "informe.aux"
   "informe.log"

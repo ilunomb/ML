@@ -38,7 +38,7 @@
 \section{Diagnóstico de Cáncer de Mama}
 % RESUMEN
 \begin{abstract}
-    En este trabajo se desarrolló un sistema de clasificación binaria para predecir si una célula presenta características compatibles con un diagnóstico médico, a partir de datos morfológicos y bioquímicos. Para ello, se implementó desde cero un modelo de regresión logística con regularización L2. Se exploraron distintas técnicas de preprocesamiento, normalización, imputación de valores faltantes y re-balanceo de clases. El modelo fue entrenado y validado en múltiples escenarios, incluyendo datos balanceados y desbalanceados. Los resultados muestran que la técnica de \textbf{\textcolor{red}{AGREGAR RESULTADO}} permitió alcanzar el mejor compromiso entre precisión y recall, con un F1-score superior al resto de las variantes evaluadas.
+    En este trabajo se desarrolló un sistema de clasificación binaria para predecir si una célula presenta características compatibles con un diagnóstico médico, a partir de datos morfológicos y bioquímicos. Para ello, se implementó desde cero un modelo de regresión logística con regularización L2. Se exploraron distintas técnicas de preprocesamiento, normalización, imputación de valores faltantes y re-balanceo de clases. El modelo fue entrenado y validado en múltiples escenarios, incluyendo datos balanceados y desbalanceados. Los resultados muestran que la técnica de undersampling permitió alcanzar el mejor compromiso entre precisión y recall, con un F1-score superior al resto de las variantes evaluadas.
 \end{abstract}
     
 
@@ -206,7 +206,7 @@ Para ello, se exploraron dos enfoques complementarios:
     \item \textbf{Validación cruzada ($k=10$ folds)}: se aplicó validación cruzada estratificada repitiendo el entrenamiento y evaluación en diferentes particiones, concatenando las predicciones para obtener una única estimación global del F1-score por cada valor de $\lambda$ (ver sección Métodos).
 \end{itemize}
 
-Ambos métodos coincidieron en una región cercana del espacio de búsqueda. Sin embargo, el valor óptimo determinado por el barrido simple arrojó una leve mejora en el rendimiento final del modelo en el conjunto de test. Por esta razón, se optó por continuar utilizando ese valor de $\lambda$ en los experimentos posteriores.
+Ambos métodos coincidieron en una región cercana del espacio de búsqueda. Sin embargo, el valor óptimo determinado por el barrido simple arrojó una leve mejora en el rendimiento final del modelo en el conjunto de validación. Por esta razón, se optó por continuar utilizando ese valor de $\lambda$ en los experimentos posteriores.
 
 La Figura~\ref{fig:lambda_search} muestra el comportamiento del F1-score a medida que varía el valor de $\lambda$.
 
@@ -221,7 +221,7 @@ La Figura~\ref{fig:lambda_search} muestra el comportamiento del F1-score a medid
 
 Una vez identificado el valor óptimo del hiperparámetro $\lambda$ a través del procedimiento de barrido y validación cruzada, se procedió a entrenar el modelo definitivo sobre el \textbf{conjunto completo de desarrollo balanceado}. A continuación, se evaluó su desempeño sobre el \textbf{conjunto de test balanceado}, que permaneció completamente independiente durante el proceso de ajuste.
 
-Las métricas obtenidas se muestran en la Tabla~\ref{tab:test_metrics}. El modelo logró un rendimiento satisfactorio, manteniendo la coherencia respecto a lo observado en validación. Las curvas ROC y PR correspondientes se presentan en la Figura~\ref{fig:test_curves}.
+Las métricas obtenidas se muestran en la Tabla~\ref{tab:test_metrics}. El modelo logró un rendimiento satisfactorio, manteniendo la coherencia respecto a lo observado en validación. Las curvas ROC y PR correspondientes, junto a la matriz de confusión se presentan en la Figura~\ref{fig:test_curves}.
 
 \begin{table}[H]
     \centering
@@ -375,11 +375,96 @@ Sin embargo, sí se identificaron valores fuera de los rangos coherentes en vari
 
 Al igual que en la primera parte del trabajo, se definieron rangos válidos para cada variable basados en la visualización y comprensión de la distribución. Los valores fuera de esos límites fueron marcados como faltantes. Luego, se imputaron utilizando una estrategia por K-vecinos más cercanos ($k=5$), considerando únicamente las instancias válidas como referencia. Esto permitió preservar la estructura del conjunto de datos sin eliminar observaciones ni introducir sesgos arbitrarios.
 
+Durante el análisis exploratorio también se evaluó la relevancia de cada feature respecto al target \texttt{WAR\_class} utilizando la métrica de \textbf{información mutua}. Esta métrica permite cuantificar cuánta información aporta cada variable predictora sobre la variable objetivo, sin asumir relaciones lineales.
 
+El análisis reveló que la columna \texttt{WAR\_total} presentaba una altísima dependencia con la variable objetivo, lo cual era esperable, ya que \texttt{WAR\_class} es una discretización directa de esa misma variable continua. Incluirla como feature implicaría una fuga directa de información (\textit{data leakage}), ya que el modelo estaría aprendiendo a reproducir una transformación conocida del target.
 
+Por esta razón, \texttt{WAR\_total} fue excluida del conjunto de datos antes del entrenamiento de los modelos.
 
+Una vez completado el preprocesamiento, se entrenaron los tres modelos sobre el conjunto de desarrollo y se evaluaron sobre el conjunto de test. Para cada modelo se utilizó el mejor conjunto de hiperparámetros encontrado previamente:
 
+\begin{itemize}
+    \item En el caso de la regresión logística multiclase, se utilizó el valor óptimo de regularización $\lambda$ previamente seleccionado mediante validación cruzada/barrido.
+    \item Para el modelo de Random Forest, se realizó una búsqueda en malla (\textit{grid search}) sobre una grilla de hiperparámetros, evaluando diferentes combinaciones de número de árboles, profundidad máxima y tamaño mínimo de los splits. La combinación que maximizó el F1 macro sobre el conjunto de validación fue utilizada para la evaluación final.
+    \item El modelo LDA no posee hiperparámetros, por lo que se utilizó directamente sobre los datos normalizados.
+\end{itemize}
 
+A continuación se presentan los resultados obtenidos por cada modelo:
+
+\subsubsection*{Regresión Logística Multiclase}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Accuracy} & \textbf{Precision (macro)} & \textbf{Recall (macro)} & \textbf{F1 Score (macro)} \\
+        \midrule
+        0.8850 & 0.8882 & 0.8934 & 0.8852 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Métricas de desempeño del modelo de regresión logística multiclase sobre el conjunto de test.}
+    \label{tab:logistic_scores}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\textwidth]{figures/logistic_roc.png}
+    \hfill
+    \includegraphics[width=0.32\textwidth]{figures/logistic_pr.png}
+    \hfill
+    \includegraphics[width=0.32\textwidth]{figures/logistic_conf_matrix.png}
+    \caption{Curva ROC (izquierda), curva PR (centro) y matriz de confusión (derecha) del modelo de regresión logística multiclase.}
+    \label{fig:logistic_figures}
+\end{figure}
+
+\subsubsection*{Análisis Discriminante Lineal (LDA)}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Accuracy} & \textbf{Precision (macro)} & \textbf{Recall (macro)} & \textbf{F1 Score (macro)} \\
+        \midrule
+        0.9057 & 0.9114 & 0.9150 & 0.9047 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Métricas de desempeño del modelo LDA sobre el conjunto de test.}
+    \label{tab:lda_scores}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\textwidth]{figures/lda_roc.png}
+    \hfill
+    \includegraphics[width=0.32\textwidth]{figures/lda_pr.png}
+    \hfill
+    \includegraphics[width=0.32\textwidth]{figures/lda_conf_matrix.png}
+    \caption{Curva ROC (izquierda), curva PR (centro) y matriz de confusión (derecha) del modelo LDA.}
+    \label{fig:lda_figures}
+\end{figure}
+
+\subsubsection*{Random Forest}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Accuracy} & \textbf{Precision (macro)} & \textbf{Recall (macro)} & \textbf{F1 Score (macro)} \\
+        \midrule
+        0.9587 & 0.9583 & 0.9611 & 0.9595 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Métricas de desempeño del modelo Random Forest sobre el conjunto de test.}
+    \label{tab:rf_scores}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\textwidth]{figures/rf_roc.png}
+    \hfill
+    \includegraphics[width=0.32\textwidth]{figures/rf_pr.png}
+    \hfill
+    \includegraphics[width=0.32\textwidth]{figures/rf_conf_matrix.png}
+    \caption{Curva ROC (izquierda), curva PR (centro) y matriz de confusión (derecha) del modelo Random Forest.}
+    \label{fig:rf_figures}
+\end{figure}
 
 \bibliographystyle{plain}
 \bibliography{referencias}
