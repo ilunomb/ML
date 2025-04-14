@@ -66,13 +66,6 @@ La función de pérdida utilizada fue la entropía cruzada penalizada, con regul
 \mathcal{L}(\mathbf{w}, b) = -\frac{1}{m} \sum_{i=1}^{m} \left[ y^{(i)} \log(\hat{y}^{(i)}) + (1 - y^{(i)}) \log(1 - \hat{y}^{(i)}) \right] + \frac{\lambda}{2m} \|\mathbf{w}\|^2
 \]
 
-La actualización de los parámetros se realizó con descenso por gradiente:
-
-\[
-\mathbf{w} \leftarrow \mathbf{w} - \eta \left[ \frac{1}{m} \sum_{i=1}^{m} (\hat{y}^{(i)} - y^{(i)}) \mathbf{x}^{(i)} + \frac{\lambda}{m} \mathbf{w} \right], \quad
-b \leftarrow b - \eta \cdot \frac{1}{m} \sum_{i=1}^{m} (\hat{y}^{(i)} - y^{(i)})
-\]
-
 Para la selección del hiperparámetro de regularización $\lambda$, se implementó validación cruzada estratificada de $k=10$ folds. En este esquema, el conjunto de entrenamiento se divide aleatoriamente en $k$ subconjuntos del mismo tamaño. Luego, se repite el siguiente proceso $k$ veces:
 
 \begin{enumerate}
@@ -109,30 +102,29 @@ Formalmente, para una muestra $\mathbf{x}$ incompleta, y un conjunto de referenc
 
 donde “valid” son los índices de las características no nulas en $\mathbf{x}$, y luego se imputan los valores de acuerdo a los $k$ vecinos más cercanos.
 
----
+
 
 \paragraph{Métricas utilizadas.}
 
-Se evaluó el rendimiento con métricas estándar para clasificación binaria:
+Se evaluó el rendimiento con métricas estándar para clasificación binaria, resumidas en la siguiente tabla:
 
-\begin{itemize}
-    \item \textbf{Accuracy}:
-    \[
-    \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
-    \]
-    \item \textbf{Precision}:
-    \[
-    \text{Precision} = \frac{TP}{TP + FP}
-    \]
-    \item \textbf{Recall}:
-    \[
-    \text{Recall} = \frac{TP}{TP + FN}
-    \]
-    \item \textbf{F1-score}:
-    \[
-    F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
-    \]
-\end{itemize}
+\vspace{0.5em}
+\begin{table}[h]
+\centering
+\label{tab:metricas}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Fórmula} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-score} \\
+\midrule
+\small Expresión & 
+$\displaystyle \frac{TP + TN}{TP + TN + FP + FN}$ &
+$\displaystyle \frac{TP}{TP + FP}$ &
+$\displaystyle \frac{TP}{TP + FN}$ &
+$\displaystyle 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}$ \\
+\bottomrule
+\end{tabular}
+\caption{Métricas de evaluación utilizadas.}
+\end{table}
 
 También se utilizaron las curvas ROC y PR, y sus respectivas áreas bajo la curva (AUC-ROC y AUC-PR), para evaluar el modelo en distintos umbrales de decisión.
 
@@ -251,17 +243,7 @@ Las métricas obtenidas se muestran en la Tabla~\ref{tab:test_metrics}. El model
 
 Para evaluar la robustez del modelo frente al desbalance de clases, se repitió el entrenamiento utilizando el conjunto de desarrollo \textbf{desbalanceado}. En este caso, la proporción entre clases estaba significativamente sesgada, lo que perjudica la capacidad del modelo de detectar correctamente la clase minoritaria.
 
-Se probaron cinco estrategias distintas de rebalanceo, aplicadas antes o durante el entrenamiento:
-
-\begin{itemize}
-    \item \textbf{Sin rebalanceo}: el modelo fue entrenado directamente sobre los datos desbalanceados, sirviendo como línea base.
-    \item \textbf{Undersampling}: se eliminaron aleatoriamente muestras de la clase mayoritaria hasta igualar la cantidad de muestras de la clase minoritaria.
-    \item \textbf{Oversampling (duplicación)}: se replicaron muestras de la clase minoritaria de forma aleatoria hasta alcanzar la misma cantidad que la clase mayoritaria.
-    \item \textbf{SMOTE}: se generaron muestras sintéticas de la clase minoritaria mediante interpolación entre instancias cercanas.
-    \item \textbf{Cost Re-weighting}: se ajustó la función de pérdida para penalizar más los errores sobre la clase minoritaria, utilizando un peso proporcional a la relación $\frac{\pi_2}{\pi_1}$ entre las probabilidades a priori de ambas clases.
-\end{itemize}
-
-Para cada estrategia, se realizó una búsqueda del mejor valor de $\lambda$ utilizando F1-score sobre el conjunto de validación.
+Se probaron las cinco estrategias de rebalanceo previamente mencionadas, incluyendo el modelo sin rebalanceo.
 
 \subsubsection*{Evaluación final sobre el conjunto de test}
 
@@ -323,12 +305,22 @@ El objetivo de esta parte del trabajo fue desarrollar un modelo de clasificació
 
 Cada instancia del dataset representa el desempeño de un jugador durante una temporada específica, y está caracterizada por las siguientes variables:
 
-\begin{itemize}
-    \item \texttt{poss}: número de posesiones en la temporada.
-    \item \texttt{mp}: minutos jugados.
-    \item \texttt{off\_def}: impacto ofensivo/defensivo global.
-    \item \texttt{pace\_impact}: influencia del jugador en el ritmo de juego.
-\end{itemize}
+\vspace{0.5em}
+\begin{table}[h]
+\centering
+\label{tab:variables_seleccionadas}
+\begin{tabular}{ll}
+\toprule
+\textbf{Variable} & \textbf{Descripción} \\
+\midrule
+\texttt{poss} & Número de posesiones en la temporada \\
+\texttt{mp} & Minutos jugados \\
+\texttt{off\_def} & Impacto ofensivo/defensivo global \\
+\texttt{pace\_impact} & Influencia del jugador en el ritmo de juego \\
+\bottomrule
+\end{tabular}
+\caption{Variables seleccionadas y su descripción.}
+\end{table}
 
 Estas métricas combinan aspectos individuales y contextuales del juego, proporcionando una visión condensada del valor del jugador. Dado que la variable objetivo es discreta y toma tres posibles valores, el problema se abordó como una tarea de clasificación supervisada multiclase.
 
@@ -360,8 +352,6 @@ El clasificador final está compuesto por $T$ árboles $\{h_t\}_{t=1}^T$, y la p
 \]
 
 Este enfoque introduce aleatoriedad tanto en la selección de datos como en la selección de umbrales de división, lo que reduce el sobreajuste y mejora la generalización.
-
----
 
 Ambos modelos fueron evaluados sobre los mismos datos preprocesados que los modelos lineales. En todos los casos, las predicciones probabilísticas fueron utilizadas para computar métricas como ROC y PR por clase, bajo el esquema \textit{one-vs-rest}.
 
@@ -465,6 +455,11 @@ A continuación se presentan los resultados obtenidos por cada modelo:
     \caption{Curva ROC (izquierda), curva PR (centro) y matriz de confusión (derecha) del modelo Random Forest.}
     \label{fig:rf_figures}
 \end{figure}
+
+\subsubsection*{Conclusión}
+
+Entre los modelos evaluados, el Random Forest demostró ser el más efectivo para la tarea de clasificación del rendimiento de jugadores de basketball. Obtuvo el mayor F1-score macro, precisión y recall, superando tanto a los modelos lineales como al LDA. Su capacidad para capturar relaciones no lineales y manejar interacciones entre variables resultó clave en este escenario, a pesar de contar con un conjunto de features reducido.
+
 
 \bibliographystyle{plain}
 \bibliography{referencias}

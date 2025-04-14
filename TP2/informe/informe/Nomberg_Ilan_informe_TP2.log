@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.5.20)  13 APR 2025 18:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.5.20)  14 APR 2025 15:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP2/informe/informe/informe.tex
-(c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP2/informe/informe/informe.tex
+**c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP2/informe/informe/Nomberg_Ilan_informe_TP2.tex
+(c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP2/informe/informe/Nomberg_Ilan_informe_TP2.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-04-11>
 (C:\Users\iluno\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -321,11 +321,11 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 File: l3backend-pdftex.def 2024-04-11 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count300
 \l__pdf_internal_box=\box55
-) (informe.aux
+) (Nomberg_Ilan_informe_TP2.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
-\openout1 = `informe.aux'.
+\openout1 = `Nomberg_Ilan_informe_TP2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
 LaTeX Font Info:    ... okay on input line 14.
@@ -405,9 +405,9 @@ Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package hyperref Info: Link coloring OFF on input line 14.
-(informe.out) (informe.out)
+(Nomberg_Ilan_informe_TP2.out) (Nomberg_Ilan_informe_TP2.out)
 \@outlinefile=\write3
-\openout3 = `informe.out'.
+\openout3 = `Nomberg_Ilan_informe_TP2.out'.
 
 <Logo-udesa.png, id=43, 225.84375pt x 121.20282pt>
 File: Logo-udesa.png Graphic file (type png)
@@ -420,110 +420,113 @@ Package pdftex.def Info: Logo-udesa.png  used on input line 19.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.77 
-      [1] [2] [3]
-<figures/cleaned_data.png, id=80, 859.2903pt x 426.393pt>
+l.75 \end{enumerate}
+                     [1] [2] [3]
+<figures/cleaned_data.png, id=84, 859.2903pt x 426.393pt>
 File: figures/cleaned_data.png Graphic file (type png)
 <use figures/cleaned_data.png>
-Package pdftex.def Info: figures/cleaned_data.png  used on input line 193.
+Package pdftex.def Info: figures/cleaned_data.png  used on input line 185.
 (pdftex.def)             Requested size: 354.86412pt x 176.08446pt.
  [4 <./figures/cleaned_data.png>]
-<figures/lambda_search.png, id=92, 426.393pt x 281.853pt>
+<figures/lambda_search.png, id=94, 426.393pt x 281.853pt>
 File: figures/lambda_search.png Graphic file (type png)
 <use figures/lambda_search.png>
-Package pdftex.def Info: figures/lambda_search.png  used on input line 215.
+Package pdftex.def Info: figures/lambda_search.png  used on input line 207.
 (pdftex.def)             Requested size: 332.68385pt x 219.91756pt.
- [5 <./figures/lambda_search.png>]
-<figures/test_roc.png, id=103, 409.7709pt x 328.8285pt>
+<figures/test_roc.png, id=97, 409.7709pt x 328.8285pt>
 File: figures/test_roc.png Graphic file (type png)
 <use figures/test_roc.png>
-Package pdftex.def Info: figures/test_roc.png  used on input line 241.
+Package pdftex.def Info: figures/test_roc.png  used on input line 233.
 (pdftex.def)             Requested size: 141.94835pt x 113.90756pt.
-<figures/test_pr.png, id=104, 409.7709pt x 328.8285pt>
+<figures/test_pr.png, id=98, 409.7709pt x 328.8285pt>
 File: figures/test_pr.png Graphic file (type png)
 <use figures/test_pr.png>
-Package pdftex.def Info: figures/test_pr.png  used on input line 243.
+Package pdftex.def Info: figures/test_pr.png  used on input line 235.
 (pdftex.def)             Requested size: 141.94835pt x 113.90756pt.
-<figures/test_confusion_matrix.png, id=105, 411.939pt x 339.669pt>
+<figures/test_confusion_matrix.png, id=99, 411.939pt x 339.669pt>
 File: figures/test_confusion_matrix.png Graphic file (type png)
 <use figures/test_confusion_matrix.png>
-Package pdftex.def Info: figures/test_confusion_matrix.png  used on input line 245.
+Package pdftex.def Info: figures/test_confusion_matrix.png  used on input line 237.
 (pdftex.def)             Requested size: 141.94835pt x 117.0408pt.
- [6 <./figures/test_roc.png> <./figures/test_pr.png> <./figures/test_confusion_matrix.png>]
-<figures/rebalanceo_roc.png, id=118, 409.7709pt x 328.8285pt>
+ [5 <./figures/lambda_search.png>]
+<figures/rebalanceo_roc.png, id=110, 409.7709pt x 328.8285pt>
 File: figures/rebalanceo_roc.png Graphic file (type png)
 <use figures/rebalanceo_roc.png>
-Package pdftex.def Info: figures/rebalanceo_roc.png  used on input line 293.
+Package pdftex.def Info: figures/rebalanceo_roc.png  used on input line 275.
 (pdftex.def)             Requested size: 141.94835pt x 113.90756pt.
-<figures/rebalanceo_pr.png, id=119, 409.7709pt x 328.8285pt>
+<figures/rebalanceo_pr.png, id=111, 409.7709pt x 328.8285pt>
 File: figures/rebalanceo_pr.png Graphic file (type png)
 <use figures/rebalanceo_pr.png>
-Package pdftex.def Info: figures/rebalanceo_pr.png  used on input line 295.
+Package pdftex.def Info: figures/rebalanceo_pr.png  used on input line 277.
 (pdftex.def)             Requested size: 141.94835pt x 113.90756pt.
-<figures/rebalanceo_conf_matrix.png, id=120, 411.939pt x 339.669pt>
+<figures/rebalanceo_conf_matrix.png, id=112, 411.939pt x 339.669pt>
 File: figures/rebalanceo_conf_matrix.png Graphic file (type png)
 <use figures/rebalanceo_conf_matrix.png>
-Package pdftex.def Info: figures/rebalanceo_conf_matrix.png  used on input line 297.
+Package pdftex.def Info: figures/rebalanceo_conf_matrix.png  used on input line 279.
 (pdftex.def)             Requested size: 141.94835pt x 117.0408pt.
- [7 <./figures/rebalanceo_roc.png> <./figures/rebalanceo_pr.png> <./figures/rebalanceo_conf_matrix.png>] [8] [9]
-<figures/logistic_roc.png, id=145, 409.7709pt x 328.8285pt>
+ [6 <./figures/test_roc.png> <./figures/test_pr.png> <./figures/test_confusion_matrix.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[7 <./figures/rebalanceo_roc.png> <./figures/rebalanceo_pr.png> <./figures/rebalanceo_conf_matrix.png>] [8] [9]
+<figures/logistic_roc.png, id=146, 409.7709pt x 328.8285pt>
 File: figures/logistic_roc.png Graphic file (type png)
 <use figures/logistic_roc.png>
-Package pdftex.def Info: figures/logistic_roc.png  used on input line 410.
+Package pdftex.def Info: figures/logistic_roc.png  used on input line 400.
 (pdftex.def)             Requested size: 141.94835pt x 113.90756pt.
-<figures/logistic_pr.png, id=146, 409.7709pt x 328.8285pt>
+<figures/logistic_pr.png, id=147, 409.7709pt x 328.8285pt>
 File: figures/logistic_pr.png Graphic file (type png)
 <use figures/logistic_pr.png>
-Package pdftex.def Info: figures/logistic_pr.png  used on input line 412.
+Package pdftex.def Info: figures/logistic_pr.png  used on input line 402.
 (pdftex.def)             Requested size: 141.94835pt x 113.90756pt.
-<figures/logistic_conf_matrix.png, id=147, 390.258pt x 339.669pt>
+<figures/logistic_conf_matrix.png, id=148, 390.258pt x 339.669pt>
 File: figures/logistic_conf_matrix.png Graphic file (type png)
 <use figures/logistic_conf_matrix.png>
-Package pdftex.def Info: figures/logistic_conf_matrix.png  used on input line 414.
+Package pdftex.def Info: figures/logistic_conf_matrix.png  used on input line 404.
 (pdftex.def)             Requested size: 141.94835pt x 123.54538pt.
- [10]
-<figures/lda_roc.png, id=154, 409.7709pt x 328.8285pt>
+<figures/lda_roc.png, id=149, 409.7709pt x 328.8285pt>
 File: figures/lda_roc.png Graphic file (type png)
 <use figures/lda_roc.png>
-Package pdftex.def Info: figures/lda_roc.png  used on input line 435.
+Package pdftex.def Info: figures/lda_roc.png  used on input line 425.
 (pdftex.def)             Requested size: 141.94835pt x 113.90756pt.
-<figures/lda_pr.png, id=155, 409.7709pt x 328.8285pt>
+<figures/lda_pr.png, id=150, 409.7709pt x 328.8285pt>
 File: figures/lda_pr.png Graphic file (type png)
 <use figures/lda_pr.png>
-Package pdftex.def Info: figures/lda_pr.png  used on input line 437.
+Package pdftex.def Info: figures/lda_pr.png  used on input line 427.
 (pdftex.def)             Requested size: 141.94835pt x 113.90756pt.
-<figures/lda_conf_matrix.png, id=156, 380.8629pt x 339.669pt>
+<figures/lda_conf_matrix.png, id=151, 380.8629pt x 339.669pt>
 File: figures/lda_conf_matrix.png Graphic file (type png)
 <use figures/lda_conf_matrix.png>
-Package pdftex.def Info: figures/lda_conf_matrix.png  used on input line 439.
+Package pdftex.def Info: figures/lda_conf_matrix.png  used on input line 429.
 (pdftex.def)             Requested size: 141.94835pt x 126.59293pt.
-<figures/rf_roc.png, id=157, 416.2752pt x 328.8285pt>
+ [10 <./figures/logistic_roc.png> <./figures/logistic_pr.png> <./figures/logistic_conf_matrix.png> <./figures/lda_roc.png> <./figures/lda_pr.png> <./figures/lda_conf_matrix.png>]
+<figures/rf_roc.png, id=168, 416.2752pt x 328.8285pt>
 File: figures/rf_roc.png Graphic file (type png)
 <use figures/rf_roc.png>
-Package pdftex.def Info: figures/rf_roc.png  used on input line 460.
+Package pdftex.def Info: figures/rf_roc.png  used on input line 450.
 (pdftex.def)             Requested size: 141.94835pt x 112.13136pt.
-<figures/rf_pr.png, id=158, 409.7709pt x 328.8285pt>
+<figures/rf_pr.png, id=169, 409.7709pt x 328.8285pt>
 File: figures/rf_pr.png Graphic file (type png)
 <use figures/rf_pr.png>
-Package pdftex.def Info: figures/rf_pr.png  used on input line 462.
+Package pdftex.def Info: figures/rf_pr.png  used on input line 452.
 (pdftex.def)             Requested size: 141.94835pt x 113.90756pt.
-<figures/rf_conf_matrix.png, id=159, 380.8629pt x 339.669pt>
+<figures/rf_conf_matrix.png, id=170, 380.8629pt x 339.669pt>
 File: figures/rf_conf_matrix.png Graphic file (type png)
 <use figures/rf_conf_matrix.png>
-Package pdftex.def Info: figures/rf_conf_matrix.png  used on input line 464.
+Package pdftex.def Info: figures/rf_conf_matrix.png  used on input line 454.
 (pdftex.def)             Requested size: 141.94835pt x 126.59293pt.
- [11 <./figures/logistic_roc.png> <./figures/logistic_pr.png> <./figures/logistic_conf_matrix.png> <./figures/lda_roc.png> <./figures/lda_pr.png> <./figures/lda_conf_matrix.png>] (informe.bbl
+ (Nomberg_Ilan_informe_TP2.bbl
 Underfull \hbox (badness 1460) in paragraph at lines 4--8
 []\OT1/cmr/m/n/10.95 Microsoft.  Da-ta wran-gler ex-ten-sion for ex-plo-ra-tory da-ta clea-ning, 2023.  Dis-
  []
 
 )
-<figures/separability_scatter.png, id=177, 455.301pt x 339.669pt>
+<figures/separability_scatter.png, id=172, 455.301pt x 339.669pt>
 File: figures/separability_scatter.png Graphic file (type png)
 <use figures/separability_scatter.png>
-Package pdftex.def Info: figures/separability_scatter.png  used on input line 478.
+Package pdftex.def Info: figures/separability_scatter.png  used on input line 473.
 (pdftex.def)             Requested size: 266.14978pt x 198.56303pt.
- [12 <./figures/rf_roc.png> <./figures/rf_pr.png> <./figures/rf_conf_matrix.png> <./figures/separability_scatter.png>] (informe.aux
+ [11 <./figures/rf_roc.png> <./figures/rf_pr.png> <./figures/rf_conf_matrix.png>] [12 <./figures/separability_scatter.png>] (Nomberg_Ilan_informe_TP2.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -531,21 +534,21 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-04-11>
  ***********
-Package rerunfilecheck Info: File `informe.out' has not changed.
+Package rerunfilecheck Info: File `Nomberg_Ilan_informe_TP2.out' has not changed.
 (rerunfilecheck)             Checksum: 450B47B628ADD4F0DEDA85936A567AE4;1661.
  ) 
 Here is how much of TeX's memory you used:
- 13108 strings out of 474370
- 213279 string characters out of 5740535
+ 13113 strings out of 474370
+ 213790 string characters out of 5740535
  1939754 words of memory out of 5000000
- 35309 multiletter control sequences out of 15000+600000
+ 35311 multiletter control sequences out of 15000+600000
  565395 words of font info for 61 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,830b,534s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on informe.pdf (13 pages, 818803 bytes).
+ 75i,13n,79p,847b,541s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on Nomberg_Ilan_informe_TP2.pdf (13 pages, 809045 bytes).
 PDF statistics:
- 258 PDF objects out of 1000 (max. 8388607)
- 54 named destinations out of 1000 (max. 500000)
+ 257 PDF objects out of 1000 (max. 8388607)
+ 57 named destinations out of 1000 (max. 500000)
  176 words of extra memory for PDF output out of 10000 (max. 10000000)
 
