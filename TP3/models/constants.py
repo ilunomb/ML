@@ -1,0 +1,21 @@
+# Normalización
+NORMALIZATION_FACTOR = 255.0
+
+# División del dataset
+TRAIN_RATIO = 0.7
+VAL_RATIO = 0.15
+TEST_RATIO = 0.15
+
+# Dimensiones de imagen
+IMAGE_HEIGHT = 28
+IMAGE_WIDTH = 28
+IMAGE_SIZE = IMAGE_HEIGHT * IMAGE_WIDTH
+
+# Clases posibles
+NUM_CLASSES = 49
+
+# Entrenamiento
+DEFAULT_LR = 0.01
+DEFAULT_EPOCHS = 50
+DEFAULT_BATCH_SIZE = 32
+RANDOM_SEED = 42
