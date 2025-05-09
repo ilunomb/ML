@@ -243,9 +243,7 @@ class NeuralNetwork:
             num_batches = 0
 
             # Mini-batch training
-            bs = int(batch_size) if batch_size is not None else N
-
-            for start in range(0, N, bs):
+            for start in range(0, N, batch_size or N):
                 end = start + (batch_size or N)
                 X_batch = X_train_shuffled[start:end]
                 y_batch = y_train_shuffled[start:end]
