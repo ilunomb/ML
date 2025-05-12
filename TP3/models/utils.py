@@ -7,6 +7,7 @@ import cupy as cp
 from models.neural_net import NeuralNetwork
 from models.constants import *
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 def train_val_test_split(X, y, train_ratio=TRAIN_RATIO, val_ratio=VAL_RATIO, test_ratio=TEST_RATIO, shuffle=True, seed=RANDOM_SEED):
     assert abs(train_ratio + val_ratio + test_ratio - 1.0) < 1e-6, "Ratios deben sumar 1"
@@ -91,28 +92,19 @@ def run_grid_search(X_train, y_train, X_val, y_val,
     grid_bar.close()
     return best_model, best_history, best_params
 
-
 def sweep_param(X_train, y_train, X_val, y_val,
                 param_name: str,
                 values: List[Any],
                 fixed_params: Dict[str, Any] = {},
                 metric: str = "val_loss"
-) -> List[Tuple[Any, float, NeuralNetwork]]:
+) -> Dict[str, Any]:
     """
     Búsqueda de un único hiperparámetro manteniendo el resto fijo.
-
-    Args:
-        param_name: nombre del hiperparámetro a testear (clave válida del constructor).
-        values: lista de valores a testear.
-        fixed_params: diccionario con los otros parámetros fijos.
-        metric: métrica a optimizar ('val_loss' o 'val_acc').
-
-    Returns:
-        Lista ordenada (valor, score, modelo), de mejor a peor.
     """
     results = []
 
-    for val in tqdm(values, desc=f"Sweep {param_name}", leave=True, position=0):
+    for i, val in enumerate(values):
+        print(f"\nProbing {param_name} = {val}")
         params = fixed_params.copy()
         params[param_name] = val
 
@@ -140,13 +132,16 @@ def sweep_param(X_train, y_train, X_val, y_val,
             early_stopping=params.get("early_stopping", DEFAULT_EARLY_STOPPING),
             patience=params.get("patience", DEFAULT_PATIENCE),
             verbose=False,
-            show_progress=False
+            show_progress=True
         )
 
         score = history[metric][-1]
-        results.append({"param":val, "loss":score})
+        results.append({"param": val, "loss": score})
+        print(f"{param_name} = {val} → {metric} = {score:.4f}")
 
+    # Ordenar y devolver el mejor
     return sorted(results, key=lambda x: x["loss"] if metric == "val_loss" else -x["loss"])[0]
+
 
 def init_hparams_csv(filepath: str):
     defaults = {
@@ -186,7 +181,7 @@ def update_hparams_csv(filepath: str, param_name: str, param_value):
 
     df.at[0, param_name] = str(param_value) if isinstance(param_value, tuple) else param_value
     df.to_csv(filepath, index=False)
-    print(f"Actualizado '{param_name}' a: {param_value}")
+    print(f"\nActualizado '{param_name}' a: {param_value}")
     
 
 def load_hparams_csv(filepath: str, exclude: Union[str, List[str]] = None) -> Dict[str, Any]:
@@ -271,7 +266,7 @@ def sweep_and_update(
 
     update_hparams_csv(csv_path, param_name, best_value)
 
-    print(f"Mejor {param_name}: {best_value} con {metric} = {best_score:.4f}")
+    print(f"\nMejor {param_name}: {best_value} con {metric} = {best_score:.4f}")
 
 def grid_search_and_update(
     X_train, y_train, X_val, y_val,
@@ -312,3 +307,28 @@ def grid_search_and_update(
 
     best_metric = history[metric][-1]
     print(f"Grid Search terminado. Mejor {metric} = {best_metric:.4f}")
+
+
+def plot_history(history, title="Modelo"):
+    epochs = range(1, len(history["train_loss"]) + 1)
+
+    fig, ax1 = plt.subplots(figsize=(7, 6))
+
+    ax1.set_title(f"{title} - Loss")
+    ax1.plot(epochs, history["train_loss"], label="Train Loss")
+    ax1.plot(epochs, history["val_loss"], label="Val Loss")
+    ax1.set_xlabel("Epochs")
+    ax1.set_ylabel("Cross-Entropy Loss")
+    ax1.legend()
+    ax1.grid(True)
+    plt.show()
+
+    fig, ax2 = plt.subplots(figsize=(7, 6))
+    ax2.set_title(f"{title} - Accuracy")
+    ax2.plot(epochs, history["train_acc"], label="Train Accuracy")
+    ax2.plot(epochs, history["val_acc"], label="Val Accuracy")
+    ax2.set_xlabel("Epochs")
+    ax2.set_ylabel("Accuracy")
+    ax2.legend()
+    ax2.grid(True)
+    plt.show()

@@ -1,8 +1,9 @@
 import cupy as cp
 import numpy as np
-from tqdm import tqdm
+from tqdm import trange
 from typing import Optional
 from models.constants import *
+import matplotlib.pyplot as plt
 
 def relu(x):
     return cp.maximum(0, x)
@@ -231,7 +232,7 @@ class NeuralNetwork:
 
         epoch_iter = range(epochs)
         if show_progress:
-            epoch_iter = tqdm(epoch_iter, desc="Training", ncols=100)
+            epoch_iter = trange(epochs, desc="Training")
         for epoch in epoch_iter:
             # Shuffle para mini-batch
             indices = cp.random.permutation(N)
@@ -305,6 +306,13 @@ class NeuralNetwork:
                     desc += f" - ValLoss: {val_loss:.4f} - ValAcc: {val_acc:.4f}"
                 print(desc)
 
+            if show_progress:
+                desc = f"Epoch {epoch+1} - Loss: {epoch_loss:.4f} - Acc: {epoch_acc:.4f}"
+                if X_val is not None and y_val is not None:
+                    desc += f" - ValLoss: {val_loss:.4f} - ValAcc: {val_acc:.4f}"
+                epoch_iter.set_description(desc)
+
+
         # Restaurar los mejores pesos si hubo early stopping
         if early_stopping and best_weights is not None:
             self.weights = best_weights
@@ -350,8 +358,6 @@ class NeuralNetwork:
         return matrix
 
     def _plot_confusion_matrix(self, cm: cp.ndarray, title: str = "", figsize=(7, 6)):
-        import matplotlib.pyplot as plt
-
         cm_np = cm.get()  # Convertir toda la matriz una sola vez
 
         fig, ax = plt.subplots(figsize=figsize)
