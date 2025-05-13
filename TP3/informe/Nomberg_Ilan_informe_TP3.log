@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.5.20)  12 MAY 2025 13:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.5.20)  12 MAY 2025 22:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -467,64 +467,64 @@ Package pdftex.def Info: figures/conf_matrix_m0.png  used on input line 245.
 <figures/loss_m1.png, id=101, 443.0151pt x 393.8715pt>
 File: figures/loss_m1.png Graphic file (type png)
 <use figures/loss_m1.png>
-Package pdftex.def Info: figures/loss_m1.png  used on input line 299.
+Package pdftex.def Info: figures/loss_m1.png  used on input line 301.
 (pdftex.def)             Requested size: 141.94835pt x 126.20372pt.
 <figures/acc_m1.png, id=102, 443.0151pt x 393.8715pt>
 File: figures/acc_m1.png Graphic file (type png)
 <use figures/acc_m1.png>
-Package pdftex.def Info: figures/acc_m1.png  used on input line 305.
+Package pdftex.def Info: figures/acc_m1.png  used on input line 307.
 (pdftex.def)             Requested size: 141.94835pt x 126.20372pt.
 <figures/conf_matrix_m1.png, id=103, 479.1501pt x 423.5022pt>
 File: figures/conf_matrix_m1.png Graphic file (type png)
 <use figures/conf_matrix_m1.png>
-Package pdftex.def Info: figures/conf_matrix_m1.png  used on input line 311.
+Package pdftex.def Info: figures/conf_matrix_m1.png  used on input line 313.
 (pdftex.def)             Requested size: 141.94835pt x 125.46194pt.
  [7]
 <figures/loss_m2.png, id=111, 452.4102pt x 393.8715pt>
 File: figures/loss_m2.png Graphic file (type png)
 <use figures/loss_m2.png>
-Package pdftex.def Info: figures/loss_m2.png  used on input line 343.
+Package pdftex.def Info: figures/loss_m2.png  used on input line 345.
 (pdftex.def)             Requested size: 141.94835pt x 123.57735pt.
 <figures/acc_m2.png, id=112, 452.4102pt x 393.8715pt>
 File: figures/acc_m2.png Graphic file (type png)
 <use figures/acc_m2.png>
-Package pdftex.def Info: figures/acc_m2.png  used on input line 349.
+Package pdftex.def Info: figures/acc_m2.png  used on input line 351.
 (pdftex.def)             Requested size: 141.94835pt x 123.57735pt.
 <figures/conf_matrix_m2.png, id=113, 479.1501pt x 422.0568pt>
 File: figures/conf_matrix_m2.png Graphic file (type png)
 <use figures/conf_matrix_m2.png>
-Package pdftex.def Info: figures/conf_matrix_m2.png  used on input line 355.
+Package pdftex.def Info: figures/conf_matrix_m2.png  used on input line 357.
 (pdftex.def)             Requested size: 141.94835pt x 125.03375pt.
  [8 <./figures/loss_m1.png> <./figures/acc_m1.png> <./figures/conf_matrix_m1.png> <./figures/loss_m2.png> <./figures/acc_m2.png> <./figures/conf_matrix_m2.png>]
 <figures/loss_m3.png, id=128, 443.0151pt x 393.8715pt>
 File: figures/loss_m3.png Graphic file (type png)
 <use figures/loss_m3.png>
-Package pdftex.def Info: figures/loss_m3.png  used on input line 383.
+Package pdftex.def Info: figures/loss_m3.png  used on input line 385.
 (pdftex.def)             Requested size: 141.94835pt x 126.20372pt.
 <figures/acc_m3.png, id=129, 443.0151pt x 393.8715pt>
 File: figures/acc_m3.png Graphic file (type png)
 <use figures/acc_m3.png>
-Package pdftex.def Info: figures/acc_m3.png  used on input line 389.
+Package pdftex.def Info: figures/acc_m3.png  used on input line 391.
 (pdftex.def)             Requested size: 141.94835pt x 126.20372pt.
 <figures/conf_matrix_m3.png, id=130, 479.1501pt x 423.5022pt>
 File: figures/conf_matrix_m3.png Graphic file (type png)
 <use figures/conf_matrix_m3.png>
-Package pdftex.def Info: figures/conf_matrix_m3.png  used on input line 395.
+Package pdftex.def Info: figures/conf_matrix_m3.png  used on input line 397.
 (pdftex.def)             Requested size: 141.94835pt x 125.46194pt.
 <figures/loss_m4.png, id=131, 433.62pt x 393.8715pt>
 File: figures/loss_m4.png Graphic file (type png)
 <use figures/loss_m4.png>
-Package pdftex.def Info: figures/loss_m4.png  used on input line 425.
+Package pdftex.def Info: figures/loss_m4.png  used on input line 427.
 (pdftex.def)             Requested size: 141.94835pt x 128.93826pt.
 <figures/acc_m4.png, id=132, 443.0151pt x 393.8715pt>
 File: figures/acc_m4.png Graphic file (type png)
 <use figures/acc_m4.png>
-Package pdftex.def Info: figures/acc_m4.png  used on input line 431.
+Package pdftex.def Info: figures/acc_m4.png  used on input line 433.
 (pdftex.def)             Requested size: 141.94835pt x 126.20372pt.
 <figures/conf_matrix_m4.png, id=133, 469.0323pt x 423.5022pt>
 File: figures/conf_matrix_m4.png Graphic file (type png)
 <use figures/conf_matrix_m4.png>
-Package pdftex.def Info: figures/conf_matrix_m4.png  used on input line 437.
+Package pdftex.def Info: figures/conf_matrix_m4.png  used on input line 439.
 (pdftex.def)             Requested size: 141.94835pt x 128.16957pt.
  [9 <./figures/loss_m3.png> <./figures/acc_m3.png> <./figures/conf_matrix_m3.png>] [10 <./figures/loss_m4.png> <./figures/acc_m4.png> <./figures/conf_matrix_m4.png>] [11] (Nomberg_Ilan_informe_TP3.aux
 LaTeX Info: Redefining \. on input line 11.
@@ -546,7 +546,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,11n,79p,1148b,536s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\iluno\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/iluno/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Nomberg_Ilan_informe_TP3.pdf (12 pages, 648518 bytes).
+Output written on Nomberg_Ilan_informe_TP3.pdf (12 pages, 648753 bytes).
 PDF statistics:
  243 PDF objects out of 1000 (max. 8388607)
  51 named destinations out of 1000 (max. 500000)

@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1747067238.45606 "c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP3/informe/Nomberg_Ilan_informe_TP3.tex" "Nomberg_Ilan_informe_TP3.pdf" "Nomberg_Ilan_informe_TP3" 1747067239.88129 0
+["pdflatex"] 1747099078.65868 "c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP3/informe/Nomberg_Ilan_informe_TP3.tex" "Nomberg_Ilan_informe_TP3.pdf" "Nomberg_Ilan_informe_TP3" 1747099080.11647 0
   "C:/Users/iluno/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1744401549 281127 da76687a863621eb8c9f87f037a08c8e ""
   "C:/Users/iluno/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1095.pk" 1747004813 12668 8471daaae432cf8ca6e0d440f2d12966 ""
   "C:/Users/iluno/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1716240901 24240354 9f299c43a3d15536f95bee3a1918d4f2 ""
@@ -109,10 +109,10 @@
   "C:/Users/iluno/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "C:/Users/iluno/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/iluno/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "Nomberg_Ilan_informe_TP3.aux" 1747067239 5529 5616ac90a4f657a1c1bc359159c380cb "pdflatex"
-  "Nomberg_Ilan_informe_TP3.out" 1747067239 642 a420f38c1e731ec10910084e2fd83152 "pdflatex"
-  "Nomberg_Ilan_informe_TP3.tex" 1747067236 29189 08bc2f5bda557db4eda9d4259bb398f5 ""
-  "c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP3/informe/Nomberg_Ilan_informe_TP3.tex" 1747067236 29189 08bc2f5bda557db4eda9d4259bb398f5 ""
+  "Nomberg_Ilan_informe_TP3.aux" 1747099079 5529 5616ac90a4f657a1c1bc359159c380cb "pdflatex"
+  "Nomberg_Ilan_informe_TP3.out" 1747099079 642 a420f38c1e731ec10910084e2fd83152 "pdflatex"
+  "Nomberg_Ilan_informe_TP3.tex" 1747099078 29276 fa939089ea913a38316fde095e4acbef ""
+  "c:/Users/iluno/OneDrive/Documents/GitHub/ML/TP3/informe/Nomberg_Ilan_informe_TP3.tex" 1747099078 29276 fa939089ea913a38316fde095e4acbef ""
   "figures/Logo-udesa.png" 1743780676 32280 42495ef08dcd83d623e9e4786a8c7e02 ""
   "figures/acc_m0.png" 1747061869 34460 8cfd8004a83f0b6d60acedca9f11d1a0 ""
   "figures/acc_m1.png" 1747064811 34717 a05a2402c8102dd13b110ae2e1148c4e ""
