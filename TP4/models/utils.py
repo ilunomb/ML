@@ -1,7 +1,9 @@
 import numpy as np
 from models.KMeans import KMeans
 from models.GMM import GMM
-from models.DBSCAN import DBSCAN  # asegurar que esté accesible desde tu módulo
+from models.DBSCAN import DBSCAN
+from models.PCA import PCA
+from models.VAE import VAE
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 from typing import List, Dict, Optional
@@ -9,6 +11,9 @@ from matplotlib import cm
 from tqdm import tqdm
 import pandas as pd
 import seaborn as sns
+import torch
+from torch.utils.data import DataLoader
+
 
 def normalize(X: np.ndarray) -> np.ndarray:
     mean = np.mean(X, axis=0)
@@ -237,31 +242,38 @@ def plot_gmm_clusters(X: np.ndarray, labels: np.ndarray, means: np.ndarray, cova
     )
     plt.show()
 
-
-def grid_search_dbscan(X: np.ndarray, eps_list: list, min_samples_list: list):
+def grid_search_dbscan(
+    X: np.ndarray,
+    eps_list: List[float],
+    min_samples_list: List[int]
+) -> List[Dict]:
     """
-    Ejecuta DBSCAN para múltiples combinaciones de parámetros, grafica resultados y
-    devuelve estadísticas clave.
+    Ejecuta DBSCAN para múltiples combinaciones de parámetros, grafica resultados con estilo uniforme,
+    y devuelve estadísticas clave para cada combinación.
+
+    Args:
+        X (np.ndarray): datos de entrada
+        eps_list (List[float]): lista de valores de ε a explorar
+        min_samples_list (List[int]): lista de valores de min_samples a explorar
 
     Returns:
-        results (list): lista de dicts con eps, min_samples, n_clusters, n_noise
+        List[Dict]: estadísticas por configuración (eps, min_samples, n_clusters, n_noise)
     """
-
-    fig, axs = plt.subplots(len(eps_list), len(min_samples_list), figsize=(15, 12))
-    total = len(eps_list) * len(min_samples_list)
+    fig, axs = plt.subplots(len(eps_list), len(min_samples_list), figsize=(4 * len(min_samples_list), 4 * len(eps_list)))
     results = []
+    total = len(eps_list) * len(min_samples_list)
+    colors = cm.get_cmap("tab20", 20)
 
     with tqdm(total=total, desc="Grid DBSCAN") as pbar:
         for i, eps in enumerate(eps_list):
             for j, min_samples in enumerate(min_samples_list):
-                pbar.set_description(f"DBSCAN ε={eps}, min_samples={min_samples}")
                 model = DBSCAN(eps=eps, min_samples=min_samples)
                 model.fit(X)
                 labels = model.labels_
                 n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
                 n_noise = np.sum(labels == -1)
 
-                # Guardar stats
+                # Guardar estadísticas
                 results.append({
                     "eps": eps,
                     "min_samples": min_samples,
@@ -269,53 +281,36 @@ def grid_search_dbscan(X: np.ndarray, eps_list: list, min_samples_list: list):
                     "n_noise": n_noise
                 })
 
-                # Plot
-                ax = axs[i][j]
-                ax.set_title(f"ε={eps}, min_pts={min_samples}, k={n_clusters}")
-                for label in set(labels):
-                    ax.scatter(
-                        X[labels == label, 0],
-                        X[labels == label, 1],
-                        s=10
-                    )
+                # Gráfico con estilo uniforme
+                ax = axs[i][j] if len(eps_list) > 1 else axs[j]  # soporte para 1D
+                unique_labels = set(labels)
+
+                for label in unique_labels:
+                    mask = labels == label
+                    if label == -1:
+                        ax.scatter(
+                            X[mask, 0], X[mask, 1],
+                            c='lightgray', s=20, edgecolors='none', alpha=0.5
+                        )
+                    else:
+                        ax.scatter(
+                            X[mask, 0], X[mask, 1],
+                            s=40,
+                            c=[colors(label)],
+                            edgecolors='black',
+                            linewidths=0.5,
+                            alpha=0.7
+                        )
+
+                ax.set_title(f"ε={eps}, min_pts={min_samples}\nk={n_clusters}", fontsize=10)
                 ax.set_xticks([]), ax.set_yticks([])
+                ax.set_xlabel("x₁"), ax.set_ylabel("x₂")
+
                 pbar.update(1)
 
     plt.tight_layout()
     plt.show()
     return results
-
-
-def plot_dbscan_summary(results: list):
-    """
-    Genera un gráfico de calor que relaciona cantidad de clusters y puntos de ruido.
-
-    Args:
-        results (list): salida de grid_search_dbscan
-    """
-    df = pd.DataFrame(results)
-
-    # Gráfico 1: Clusters vs. puntos de ruido
-    plt.figure(figsize=(8, 6))
-    sns.scatterplot(
-        data=df,
-        x="n_clusters",
-        y="n_noise",
-        hue="eps",
-        size="min_samples",
-        palette="viridis",
-        sizes=(20, 200)
-    )
-    plt.title("Relación entre clusters detectados y puntos de ruido")
-    plt.xlabel("Cantidad de clusters")
-    plt.ylabel("Cantidad de puntos de ruido")
-    plt.grid(True)
-    plt.legend(title="ε")
-    plt.tight_layout()
-    plt.show()
-
-
-
 
 
 def plot_dbscan_clusters(X: np.ndarray, labels: np.ndarray, title: Optional[str] = None):
@@ -368,3 +363,89 @@ def plot_dbscan_clusters(X: np.ndarray, labels: np.ndarray, title: Optional[str]
         title="Etiquetas"
     )
     plt.show()
+
+
+def plot_reconstructions_vae(
+    model,
+    X_tensor: torch.Tensor,
+    indices: list[int],
+    device: str = "cuda" if torch.cuda.is_available() else "cpu",
+    title: str = "Reconstrucción con VAE desde índices"
+):
+    """
+    Muestra imágenes originales y reconstruidas por VAE a partir de índices dados.
+
+    Args:
+        model: VAE entrenado.
+        X_tensor (torch.Tensor): Tensor de imágenes (N, 784).
+        indices (list[int]): Lista de 10 índices.
+        device (str): Dispositivo de ejecución.
+        title (str): Título del gráfico.
+    """
+    assert len(indices) == 10, "Se requieren exactamente 10 índices"
+
+    model.eval()
+    model.to(device)
+
+    with torch.no_grad():
+        x = X_tensor[indices].to(device).float()  # Selección directa
+        x_hat, _, _ = model(x)
+
+    x = x.cpu().numpy()
+    x_hat = x_hat.cpu().numpy()
+
+    import matplotlib.pyplot as plt
+    fig, axes = plt.subplots(2, 10, figsize=(15, 3))
+    for i in range(10):
+        axes[0, i].imshow(x[i].reshape(28, 28), cmap='gray', vmin=0, vmax=1)
+        axes[0, i].axis('off')
+        axes[1, i].imshow(x_hat[i].reshape(28, 28), cmap='gray', vmin=0, vmax=1)
+        axes[1, i].axis('off')
+
+    axes[0, 0].set_ylabel("Original", fontsize=12)
+    axes[1, 0].set_ylabel("VAE", fontsize=12)
+    plt.suptitle(title, fontsize=14)
+    plt.tight_layout()
+    plt.show()
+
+
+
+def plot_reconstructions_pca(
+    pca: PCA,
+    X: np.ndarray,
+    indices: list[int],
+    title: str = "Reconstrucción con PCA desde índices"
+):
+    """
+    Reconstruye y grafica imágenes originales vs reconstruidas desde un conjunto de índices.
+
+    Args:
+        pca (PCA): Modelo PCA entrenado.
+        X (np.ndarray): Conjunto de datos (n_samples, 784).
+        indices (list[int]): Lista de 10 índices a mostrar.
+        title (str): Título del gráfico.
+    """
+    assert len(indices) == 10, "Se requieren exactamente 10 índices"
+
+    originals = X[indices]
+    reconstructions = pca.inverse_transform(pca.transform(originals))
+
+    fig, axes = plt.subplots(2, 10, figsize=(15, 3))
+    for i in range(10):
+        axes[0, i].imshow(originals[i].reshape(28, 28), cmap='gray', vmin=0, vmax=1)
+        axes[0, i].axis('off')
+        axes[1, i].imshow(reconstructions[i].reshape(28, 28), cmap='gray', vmin=0, vmax=1)
+        axes[1, i].axis('off')
+
+    axes[0, 0].set_ylabel("Original", fontsize=12)
+    axes[1, 0].set_ylabel("PCA", fontsize=12)
+    plt.suptitle(title, fontsize=14)
+    plt.tight_layout()
+    plt.show()
+
+
+def get_one_index_per_digit(y: np.ndarray) -> list[int]:
+    """
+    Retorna una lista de 10 índices, uno para cada dígito del 0 al 9.
+    """
+    return [np.where(y == d)[0][0] for d in range(10)]
