@@ -62,7 +62,7 @@ def kmeans_elbow_analysis(X: np.ndarray, K_range: range, random_state: int = 0, 
 
     if plot:
         plt.figure(figsize=(8, 4))
-        plt.plot(K_range, inertias, marker='o', linestyle='--', label="L(K)")
+        plt.plot(K_range, inertias, marker='o', linestyle='--', color='darkblue', label="L(K)")
         plt.axvline(k_opt, color='red', linestyle=':', label=f"K óptimo = {k_opt}")
         plt.title("Curva del Codo - KMeans (umbral + paciencia)")
         plt.xlabel("Número de clusters (K)")
@@ -145,10 +145,12 @@ def gmm_log_likelihood_curve(X: np.ndarray, K_range: range, random_state: int = 
     """
 
     log_likelihoods = []
-    for k in K_range:
-        gmm = GMM(n_components=k, random_state=random_state)
-        gmm.fit(X)
-        log_likelihoods.append(gmm.log_likelihood_)
+    with tqdm(total=len(K_range), desc="GMM K search") as pbar:
+        for k in K_range:
+            gmm = GMM(n_components=k, random_state=random_state)
+            gmm.fit(X)
+            log_likelihoods.append(gmm.log_likelihood_)
+            pbar.update(1)
 
     improvements = [(log_likelihoods[i] - log_likelihoods[i - 1]) / abs(log_likelihoods[i - 1])
                     for i in range(1, len(log_likelihoods))]
@@ -184,31 +186,33 @@ def gmm_log_likelihood_curve(X: np.ndarray, K_range: range, random_state: int = 
     return k_opt
 
 
-def plot_gmm_clusters(X: np.ndarray, labels: np.ndarray, means: np.ndarray, covariances: np.ndarray,
-                      title: str = "Clusters - GMM") -> None:
+def plot_gmm_soft_clusters(X: np.ndarray, responsibilities: np.ndarray, means: np.ndarray, covariances: np.ndarray,
+                      title: str = "Clusters - GMM (soft)") -> None:
     """
-    Plotea los datos etiquetados por cluster, los centroides y elipses gaussianas, con estética uniforme.
+    Plotea los datos coloreados por responsabilidades de GMM, con centroides y elipses gaussianas.
 
     Args:
         X (np.ndarray): datos normalizados (n_samples, 2)
-        labels (np.ndarray): etiquetas de cluster (n_samples,)
+        responsibilities (np.ndarray): responsabilidades (n_samples, n_components)
         means (np.ndarray): medias de las gaussianas (n_components, 2)
         covariances (np.ndarray): matrices de covarianza (n_components, 2, 2)
         title (str): título del gráfico
     """
-    n_clusters = np.max(labels) + 1
+    n_clusters = responsibilities.shape[1]
     colors = cm.get_cmap("tab20", n_clusters)
+    base_colors = np.array([colors(i)[:3] for i in range(n_clusters)])  # RGB base
+
+    # Mezcla de colores por responsabilidades
+    soft_colors = responsibilities @ base_colors
 
     plt.figure(figsize=(7, 7))
+    plt.scatter(
+        X[:, 0], X[:, 1],
+        c=soft_colors,
+        s=40, alpha=0.7, edgecolors='black', linewidths=0.5
+    )
 
     for i in range(n_clusters):
-        plt.scatter(
-            X[labels == i, 0], X[labels == i, 1],
-            s=40, alpha=0.7, edgecolors='black',
-            linewidths=0.5, label=f"Cluster {i}",
-            c=[colors(i)]
-        )
-
         # Dibujar la elipse 1σ
         cov = covariances[i]
         vals, vecs = np.linalg.eigh(cov)
@@ -233,12 +237,21 @@ def plot_gmm_clusters(X: np.ndarray, labels: np.ndarray, means: np.ndarray, cova
     plt.axis("equal")
     plt.tight_layout()
 
-    # Leyenda a la derecha
+    # Leyenda manual con colores base
+    from matplotlib.lines import Line2D
+    legend_elements = [
+        Line2D([0], [0], marker='o', color='w', label=f"Cluster {i}",
+               markerfacecolor=colors(i), markeredgecolor='black', markersize=8)
+        for i in range(n_clusters)
+    ]
+    legend_elements.append(
+        Line2D([0], [0], marker='X', color='w', label='Centroides',
+               markerfacecolor='black', markeredgecolor='black', markersize=10)
+    )
     plt.legend(
-        loc='center left',
-        bbox_to_anchor=(1, 0.5),
-        title="Etiquetas",
-        fontsize=9
+        handles=legend_elements,
+        loc='center left', bbox_to_anchor=(1, 0.5),
+        title="Etiquetas", fontsize=9
     )
     plt.show()
 
@@ -370,7 +383,7 @@ def plot_reconstructions_vae(
     X_tensor: torch.Tensor,
     indices: list[int],
     device: str = "cuda" if torch.cuda.is_available() else "cpu",
-    title: str = "Reconstrucción con VAE desde índices"
+    title: str = "Reconstrucción con VAE"
 ):
     """
     Muestra imágenes originales y reconstruidas por VAE a partir de índices dados.
@@ -414,7 +427,7 @@ def plot_reconstructions_pca(
     pca: PCA,
     X: np.ndarray,
     indices: list[int],
-    title: str = "Reconstrucción con PCA desde índices"
+    title: str = "Reconstrucción con PCA"
 ):
     """
     Reconstruye y grafica imágenes originales vs reconstruidas desde un conjunto de índices.
